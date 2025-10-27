@@ -4,7 +4,7 @@ import (
 	"be-task2/config"
 	"be-task2/routes"
 	"log"
-
+   "fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -35,5 +35,6 @@ func main (){
      defer db.Close()
 	
 
+	 fmt.Println("Connected at port 8080")
 	r.Run(`:8080`)
 }
