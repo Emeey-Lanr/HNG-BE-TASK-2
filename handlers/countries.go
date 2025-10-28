@@ -60,3 +60,25 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
   helpers.SuccessResponse(http.StatusOK, gin.H{"message":"refresh succesfull"}, c)
 
 }
+
+
+
+func SortAndFilterCountry (c *gin.Context, db *sqlx.DB){
+
+   region :=  c.Query("region")
+   currency := c.Query("currency")
+   sort := c.Query("sort")
+
+   data, err := repository.SortAndFilterDBQuery(db, region, currency, sort)
+
+   if err != nil {
+    helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"Data not found", Details: err.Error()}, c)
+   }
+
+ helpers.SuccessResponse(http.StatusOK, data, c)
+
+
+
+}
+
+

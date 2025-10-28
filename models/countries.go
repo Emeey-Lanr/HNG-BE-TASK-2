@@ -31,5 +31,5 @@ type DBData struct {
 	Exchange_rate     *float64   `db:"exchange_rate" json:"exchange_rate,omitempty"`
 	Estimated_gdp     *float64   `db:"estimated_gdp" json:"estimated_gdp,omitempty"`
 	Flag_url          string    `db:"flag_url" json:"flag_url"`
-	Last_refreshed_at  string  `db:"" json:"last_refreshed_at,omitempty"`
+	Last_refreshed_at  string  `db:"last_refreshed_at" json:"last_refreshed_at,omitempty"`
 }
