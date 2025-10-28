@@ -32,6 +32,9 @@ func main (){
 
 	routes.CountryRoutes(CountryRoutes, db)
 
+	// get status route
+     routes.StatusRoute(r)
+
      defer db.Close()
 	
 

@@ -123,3 +123,21 @@ func SelectASingleCountry (name string, db *sqlx.DB)( models.DBData, error){
 
  return country,  nil
 }
+
+
+func DeleteACountryFromDB (name string, db *sqlx.DB) error{
+	query := `DELETE FROM countries WHERE name = ? `
+	
+	deleted, err := db.Exec(query, name)
+
+	if  err != nil{
+		return fmt.Errorf ("Failed to delete country %w", err)
+	}
+
+	rowsAffected, _ := deleted.RowsAffected()
+	if rowsAffected == 0{
+		return fmt.Errorf ("country not found")
+	}
+
+	return nil
+}

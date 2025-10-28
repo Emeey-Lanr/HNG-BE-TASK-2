@@ -25,7 +25,7 @@ func CountryRoutes  (rg *gin.RouterGroup, db *sqlx.DB){
 
 //   delete a country record
   rg.DELETE("/:name", func(ctx *gin.Context) {
-
+     handlers.DeleteACountry(ctx, db)
   })
   
 

@@ -89,10 +89,21 @@ func GetACountry (c *gin.Context, db *sqlx.DB){
 
     if err != nil {
             helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"Data not found", Details: err.Error()},c)
-    }
+    return
+          }
 
 helpers.SuccessResponse(http.StatusOK, data, c)    
 
 
 }
 
+func DeleteACountry (c *gin.Context, db *slqx.DB){
+  name := c.Param("name")
+
+  err := repository.DeleteACountryFromDB(name, db)
+  if err != nil{
+    helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"An occured deleting from db", Details: err.Error()},c)
+  }
+
+  helpers.SuccessResponse(http.StatusOK, gin.H{"message":"delted succesfully"}, c) 
+}
