@@ -27,6 +27,8 @@ func CountryRoutes  (rg *gin.RouterGroup, db *sqlx.DB){
   rg.DELETE("/:name", func(ctx *gin.Context) {
      handlers.DeleteACountry(ctx, db)
   })
+
+  rg.GET("/image", handlers.ServeSummaryImage)
   
 
 }

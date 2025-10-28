@@ -3,9 +3,13 @@ package services
 import (
 	"be-task2/models"
 	"fmt"
+	"image/color"
+	"log"
+	"time"
 
 	"math/rand"
 
+	"github.com/fogleman/gg"
 )
 
 func SetCountryDBData(countries []models.Countries, rate models.ExchangeRate )([]models.DBData, error ){
@@ -93,4 +97,47 @@ func SetCountryDBData(countries []models.Countries, rate models.ExchangeRate )([
 	}
 
 	return data, nil
+}
+
+
+
+func CreateImage (total int, top5 []models.TopGDP, lastRefreshed time.Time)(error){
+
+	const width = 800
+	const height = 800
+
+	dc := gg.NewContext(width, height)
+
+	dc.Clear() // set background to whitw
+	dc.SetColor(color.Black)
+	y := 50.0
+
+ dc.DrawStringAnchored(fmt.Sprintf("Total Countries: %d", total), width /2, y, 0.5, 0.5)
+ y += 50
+ 
+ dc.DrawStringAnchored("Top Five Countries by Estimated GDP:", width /2, y, 0.5, 0.5)
+ y += 40
+
+ for i, c := range top5 {
+   if i >= 5 {
+	break
+   }
+
+   dc.DrawStringAnchored(fmt.Sprintf("%d, %s - %.2f", i+1, c.Name, c.EstimatedGDP), width /2, y, 0.5, 0.5)
+   y+= 30
+ }
+
+ y += 20
+dc.DrawStringAnchored(fmt.Sprintf("Last Refreshed:%s", lastRefreshed), width /2, y, 0.5, 0.5)
+
+// save image 
+err := dc.SavePNG("cache/summary.png")
+if err != nil {
+	return fmt.Errorf("Unable to save image")
+}
+
+ log.Println("Image saved successfully")
+
+ return nil
+
 }

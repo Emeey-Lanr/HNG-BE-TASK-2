@@ -7,7 +7,9 @@ import (
 	"be-task2/repository"
 	"be-task2/services"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -57,6 +59,20 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
   }
 
 
+  // Get Image Summary from DB
+
+   totalAndLastRefreshed, topGDP, err := repository.GetImageSummaryFromDB(db)
+
+  if  err != nil {
+     log.Println(err.Error())
+  }
+
+  errFromImage := services.CreateImage(totalAndLastRefreshed.TotalCountries, topGDP, totalAndLastRefreshed.LastRefreshedAt)
+
+  if errFromImage != nil{
+     log.Println(errFromImage.Error())
+  }
+  
   helpers.SuccessResponse(http.StatusOK, gin.H{"message":"refresh succesfull"}, c)
 
 }
@@ -97,7 +113,7 @@ helpers.SuccessResponse(http.StatusOK, data, c)
 
 }
 
-func DeleteACountry (c *gin.Context, db *slqx.DB){
+func DeleteACountry (c *gin.Context, db *sqlx.DB){
   name := c.Param("name")
 
   err := repository.DeleteACountryFromDB(name, db)
@@ -106,4 +122,19 @@ func DeleteACountry (c *gin.Context, db *slqx.DB){
   }
 
   helpers.SuccessResponse(http.StatusOK, gin.H{"message":"delted succesfully"}, c) 
+}
+
+
+
+func ServeSummaryImage (c *gin.Context){
+ imagePath := "cache/summary.png"
+
+ if _, err := os.Stat(imagePath); os.IsNotExist(err){
+   helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error: "Summary image not found"}, c)
+   return
+ }
+
+ //serve the file
+ c.File(imagePath)
+
 }

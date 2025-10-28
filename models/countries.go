@@ -33,3 +33,10 @@ type DBData struct {
 	Flag_url          string    `db:"flag_url" json:"flag_url"`
 	Last_refreshed_at  string  `db:"last_refreshed_at" json:"last_refreshed_at,omitempty"`
 }
+
+
+
+type TopGDP struct {
+	Name string `db:"name"`
+	EstimatedGDP float64 `db:"estimated_gdp"`
+}

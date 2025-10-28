@@ -47,6 +47,28 @@ return nil
 
 
 
+func GetImageSummaryFromDB (db *sqlx.DB)( models.Status, []models.TopGDP, error){
+	var totalLastRefreshed models.Status
+	var top5 []models.TopGDP
+
+     err := db.Get(&totalLastRefreshed, "SELECT COUNT (*) AS total_countries, MAX(last_refreshed_at) AS last_refreshed at  FROM countries")
+	if  err != nil {
+		return  totalLastRefreshed, top5, fmt.Errorf("Error Getting Total Country %w", err)
+	}
+
+
+	topCountryErr := db.Select(&top5, "SELECT name, estimated_gdp FROM countries ORDER BY estimated_gdp DESC LIMIT 5")
+
+	if topCountryErr != nil {
+       	return  totalLastRefreshed, top5, fmt.Errorf("Error Getting Total Country %w", err)
+	}
+	
+	
+    return   totalLastRefreshed,  top5, nil
+}
+
+
+
 func SortAndFilterDBQuery (db *sqlx.DB, region, currency, sort string) ([]models.DBData, error){
 	
 	query := `SELECT name, capital, region, population, currency_code, exchange_rate,
