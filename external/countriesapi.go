@@ -15,7 +15,7 @@ import (
 func GetCountries (countries *[]models.Countries) (int, error) {
 	
 
-	client := &http.Client{Timeout:10 * time.Second} 
+	client := &http.Client{Timeout:20 * time.Second} 
 
 	request, err := http.NewRequest(http.MethodGet, os.Getenv("COUNTRY_API"), nil)
 
@@ -51,7 +51,7 @@ func GetCountries (countries *[]models.Countries) (int, error) {
 func GetExchangeRate  (rates *models.ExchangeRate)( int, error ){
 
 
-	client := &http.Client{Timeout:10 * time.Second}
+	client := &http.Client{Timeout:20 * time.Second}
 	
 
 	request, err := http.NewRequest(http.MethodGet, os.Getenv("EXCHANGERATE_API"), nil)

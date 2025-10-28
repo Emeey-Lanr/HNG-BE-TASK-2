@@ -4,7 +4,10 @@ import (
 	"be-task2/external"
 	"be-task2/helpers"
 	"be-task2/models"
+	"be-task2/repository"
+	"be-task2/services"
 	"fmt"
+	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +26,7 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
   }
 
   fmt.Println(countries[:5])
+  
 
   exchangeReturnedMethod, exchangeReturnedErr  := external.GetExchangeRate(&exchangeRates)
 
@@ -31,8 +35,28 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
 	return
   }
 
- fmt.Println(exchangeRates)
+  fmt.Println(exchangeRates.Rates)
+//   Handles appending the correct data set into a slice
+
   
- return
+  countriesDBData, err := services.SetCountryDBData(countries, exchangeRates)
+  
+ 
+
+  if err != nil{
+	helpers.ErrorResponse(400, models.ErrorResp{Error:"Validation failed", 
+	Details:"is required" }, c)
+  return
+  }
+
+  fmt.Println(countriesDBData[:9])
+ 
+  if err := repository.AddCountriesToDB(countriesDBData, db); err != nil{
+    helpers.ErrorResponse(http.StatusInternalServerError, models.ErrorResp{Error: "Internal server error", Details: err.Error()}, c)
+   return
+  }
+
+
+  helpers.SuccessResponse(http.StatusOK, gin.H{"message":"refresh succesfull"}, c)
 
 }

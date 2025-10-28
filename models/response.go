@@ -5,3 +5,4 @@ type ErrorResp struct {
 	Details interface{} `json:"details"`
 
 }
+
