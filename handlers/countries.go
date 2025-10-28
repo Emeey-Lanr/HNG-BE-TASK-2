@@ -100,7 +100,11 @@ func SortAndFilterCountry (c *gin.Context, db *sqlx.DB){
 
 func GetACountry (c *gin.Context, db *sqlx.DB){
     name := c.Param("name")
- 
+    
+    if name != ""{
+     name = strings.ToUpper(name[:1]) + strings.ToLower(name[1:])
+    }
+
     data, err := repository.SelectASingleCountry(name, db)
 
     if err != nil {
@@ -115,10 +119,11 @@ helpers.SuccessResponse(http.StatusOK, data, c)
 
 func DeleteACountry (c *gin.Context, db *sqlx.DB){
   name := c.Param("name")
-
+  
   err := repository.DeleteACountryFromDB(name, db)
   if err != nil{
     helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"An occured deleting from db", Details: err.Error()},c)
+    return
   }
 
   helpers.SuccessResponse(http.StatusOK, gin.H{"message":"delted succesfully"}, c) 

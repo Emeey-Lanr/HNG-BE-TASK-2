@@ -51,7 +51,7 @@ func GetImageSummaryFromDB (db *sqlx.DB)( models.Status, []models.TopGDP, error)
 	var totalLastRefreshed models.Status
 	var top5 []models.TopGDP
 
-     err := db.Get(&totalLastRefreshed, "SELECT COUNT (*) AS total_countries, MAX(last_refreshed_at) AS last_refreshed at  FROM countries")
+     err := db.Get(&totalLastRefreshed, "SELECT COUNT(*) AS total_countries, MAX(last_refreshed_at) AS last_refreshed at  FROM countries")
 	if  err != nil {
 		return  totalLastRefreshed, top5, fmt.Errorf("Error Getting Total Country %w", err)
 	}
@@ -148,7 +148,7 @@ func SelectASingleCountry (name string, db *sqlx.DB)( models.DBData, error){
 
 
 func DeleteACountryFromDB (name string, db *sqlx.DB) error{
-	query := `DELETE FROM countries WHERE name = ? `
+	query := `DELETE FROM countries WHERE LOWER(name) = LOWER(?) `
 	
 	deleted, err := db.Exec(query, name)
 

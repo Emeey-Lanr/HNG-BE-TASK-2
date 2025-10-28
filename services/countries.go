@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"image/color"
 	"log"
-	"time"
 
 	"math/rand"
 
@@ -101,7 +100,7 @@ func SetCountryDBData(countries []models.Countries, rate models.ExchangeRate )([
 
 
 
-func CreateImage (total int, top5 []models.TopGDP, lastRefreshed time.Time)(error){
+func CreateImage (total int, top5 []models.TopGDP, lastRefreshed string)(error){
 
 	const width = 800
 	const height = 800

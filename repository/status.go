@@ -11,7 +11,7 @@ import (
 func GetTotalCountryAndTimeStamp (db *sqlx.DB)(models.Status, error){
 	var status models.Status
 
-	query := "SELECT COUNT (*) AS total_countries, MAX(last_refreshed_at) AS last_refreshed_at FROM countries"
+	query := `SELECT COUNT(*) AS total_countries, MAX(last_refreshed_at) AS last_refreshed_at FROM countries`
 
 	 err := db.Get(&status, query)
 	 
