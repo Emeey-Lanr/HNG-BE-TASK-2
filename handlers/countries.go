@@ -27,7 +27,7 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
 	return
   }
 
-  fmt.Println(countries[:5])
+
   
 
   exchangeReturnedMethod, exchangeReturnedErr  := external.GetExchangeRate(&exchangeRates)
@@ -37,7 +37,6 @@ func AddCountriesToDb(c *gin.Context, db *sqlx.DB) {
 	return
   }
 
-  fmt.Println(exchangeRates.Rates)
 //   Handles appending the correct data set into a slice
 
   
