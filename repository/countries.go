@@ -2,6 +2,8 @@ package repository
 
 import (
 	"be-task2/models"
+	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -58,7 +60,7 @@ func SortAndFilterDBQuery (db *sqlx.DB, region, currency, sort string) ([]models
 	 if region != "" {
 		
 	 query += " AND region = ?"
-	 
+
 	 //  changed region from to Upperlower..
 	 Region := strings.ToUpper(region[:1]) + strings.ToLower(region[1:])
 
@@ -98,4 +100,26 @@ func SortAndFilterDBQuery (db *sqlx.DB, region, currency, sort string) ([]models
 
 	 return selectedCountries, nil
 
+}
+
+
+
+func SelectASingleCountry (name string, db *sqlx.DB)( models.DBData, error){
+
+	query := `SELECT* FROM countries WHERE name = ? LIMIT 1`
+
+
+	  var country models.DBData
+
+	  if err := db.Get(&country, query, name); err != nil{
+		if errors.Is(err, sql.ErrNoRows){
+			return models.DBData{}, fmt.Errorf("country not found")
+		}
+
+		return models.DBData{}, fmt.Errorf("Failed to fetch country %w", err)
+
+	  }
+	  
+
+ return country,  nil
 }

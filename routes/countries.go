@@ -20,7 +20,7 @@ func CountryRoutes  (rg *gin.RouterGroup, db *sqlx.DB){
 
   // get one country by name
   rg.GET("/:name", func(ctx *gin.Context) {
-
+    handlers.GetACountry(ctx, db)
   })
 
 //   delete a country record

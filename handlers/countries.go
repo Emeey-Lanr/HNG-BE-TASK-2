@@ -73,12 +73,26 @@ func SortAndFilterCountry (c *gin.Context, db *sqlx.DB){
 
    if err != nil {
     helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"Data not found", Details: err.Error()}, c)
-   }
+    return 
+  }
 
  helpers.SuccessResponse(http.StatusOK, data, c)
 
 
-
 }
 
+
+func GetACountry (c *gin.Context, db *sqlx.DB){
+    name := c.Param("name")
+ 
+    data, err := repository.SelectASingleCountry(name, db)
+
+    if err != nil {
+            helpers.ErrorResponse(http.StatusNotFound, models.ErrorResp{Error:"Data not found", Details: err.Error()},c)
+    }
+
+helpers.SuccessResponse(http.StatusOK, data, c)    
+
+
+}
 
