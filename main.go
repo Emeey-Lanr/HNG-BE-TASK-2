@@ -22,7 +22,7 @@ func main (){
 	// Godotenv
 	if err := godotenv.Load(); err != nil {
 		log.Println("error loading err:", err.Error())
-		return
+		
 	 }
 
 	//  Database
