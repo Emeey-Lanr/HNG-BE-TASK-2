@@ -129,7 +129,7 @@ func CreateImage (total int, top5 []models.TopGDP, lastRefreshed string)(error){
  y += 20
 dc.DrawStringAnchored(fmt.Sprintf("Last Refreshed:%s", lastRefreshed), width /2, y, 0.5, 0.5)
  
-fmt.Println("Hello")
+
 // save image 
 err := dc.SavePNG("cache/summary.png")
 if err != nil {
