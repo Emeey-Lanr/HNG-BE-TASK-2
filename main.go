@@ -3,8 +3,10 @@ package main
 import (
 	"be-task2/config"
 	"be-task2/routes"
+	"fmt"
 	"log"
-   "fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -39,5 +41,5 @@ func main (){
 	
 
 	 fmt.Println("Connected at port 8080")
-	r.Run(`:8080`)
+	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 }
