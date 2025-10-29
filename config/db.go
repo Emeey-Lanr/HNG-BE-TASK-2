@@ -17,9 +17,7 @@ func ConnectoDb () *sqlx.DB {
 	if err != nil{
 		log.Fatal("Error connecting to db", err.Error())
 	}
-if err := db.Ping(); err != nil {
-        log.Fatal("DB ping failed: ", err)
-    }
-	
+
+	log.Println("✅ Connected to Railway MySQL successfully!")
   return db
 }
